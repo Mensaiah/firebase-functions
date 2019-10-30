@@ -17,7 +17,7 @@ app.use(cors());
 app.post('/', (request, response) => {
   const entry = request.body;
   const key = entry.firstname;
-  entry.id = uuidv5(key, uuid.URL);
+  entry.id = uuid(key + new Date(Date.now()), uuid.URL);
 
   return admin
     .database()
