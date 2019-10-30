@@ -2,7 +2,8 @@
 
 const express = require('express');
 const cors = require('cors');
-
+const uuidv5 = require('uuid/v5');
+const uuidv4 = require('uuid/v4');
 // Firebase init
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
@@ -15,6 +16,8 @@ app.use(cors());
 // POST / method
 app.post('/', (request, response) => {
   const entry = request.body;
+  const key = entry.firstname;
+  entry.id = uuidv5(key, uuidv4());
 
   return admin
     .database()
