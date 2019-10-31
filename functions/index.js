@@ -18,7 +18,7 @@ app.post('/', (request, response) => {
   const entry = request.body;
   const key = entry.firstname;
   entry.id = uuid(key + new Date(Date.now()), uuid.URL);
-
+  entry.key = entry.id
   return admin
     .database()
     .ref('/users')
