@@ -16,9 +16,7 @@ app.use(cors());
 // POST / method
 app.post('/', (request, response) => {
   const entry = request.body;
-  const key = entry.firstname;
-  entry.id = uuid(key + new Date(Date.now()), uuid.URL);
-  entry.key = entry.id
+
   return admin
     .database()
     .ref('/users')
@@ -50,3 +48,12 @@ app.get('/', (request, response) => {
 });
 
 exports.users = functions.https.onRequest(app);
+
+exports.userData = functions.database.ref('/users/{id}').onCreate(snapshot => {
+  const userVal = snapshot.val();
+  const id = uuid(userVal.firstName + new Date(Date.now()), uuid.URL);
+  return snapshot.ref.update({
+    id: id,
+    key: id
+  });
+});
